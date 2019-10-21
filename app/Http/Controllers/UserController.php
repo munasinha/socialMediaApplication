@@ -31,8 +31,8 @@ class UserController extends Controller
         array_push($followers_ids, $user_id);
 
         $users_not_followed_1 = DB::table('users')
-                                    ->rightJoin('followers', 'followers.follower_id', '=', 'users.id')
-                                    ->whereNotIn('followers.follower_id', $followers_ids)
+                                    ->Join('followers', 'followers.follower_id', '=', 'users.id')
+                                    // ->whereNotIn('followers.follower_id', $followers_ids)
                                     ->select('users.*')
                                     ->get();
         // preventing duplication
