@@ -30,11 +30,13 @@ class UserController extends Controller
         // to prevent show his self
         array_push($followers_ids, $user_id);
 
-        $users_not_followed = DB::table('users')
-                                    ->Join('followers', 'followers.follower_id', '=', 'users.id')
+        $users_not_followed_1 = DB::table('users')
+                                    ->rightJoin('followers', 'followers.follower_id', '=', 'users.id')
                                     ->whereNotIn('followers.follower_id', $followers_ids)
                                     ->select('users.*')
                                     ->get();
+        // preventing duplication
+        $users_not_followed = $users_not_followed_1->unique('id');
 
         $posts = $user->followers_posts;
 
